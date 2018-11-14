@@ -1,0 +1,252 @@
+---
+# tasks file for roles/swefredde.grafana
+- name: Install epel-release
+  yum:
+    name: epel-release
+    state: latest
+
+- name: Check for grafana_rpm
+  stat:
+    path: /var/tmp/{{ grafana_rpm }}
+  register: rpm_download
+
+- name: Download grafana rpm
+  get_url:
+    url: "{ grafana_url }/{ grafana_rpm }"
+    dest: /var/tmp/{ grafana_rpm }
+    mode: 0444
+  when: not rpm_download.stat.exists
+
+- name: Install other required packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - graphite-web
+    - python-carbon
+    - collectd
+    - collectd-snmp
+    - initscripts
+    - fontconfig
+    - httpd
+    - mariadb-server
+    - MySQL-python
+    - emacs-nox
+    - policycoreutils-python
+    - mod_ssl
+    - openssl
+    - openssl-libs
+    - python-collectd_systemd-selinux
+    - /var/tmp/{ grafana_rpm }
+  when: not rpm_download.stat.exists
+
+- name: Start mariadb database
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Generate root password for mysql
+  command: openssl rand -hex 7 creates=/root/.my.cnf
+  register: mysql_root_password
+
+- name: Remove anonymous mysql users
+  mysql_user:
+    name: ""
+    state: absent
+  when: mysql_root_password.changed
+
+- name: Remove mysql test database
+  mysql_db:
+    name: test
+    state: absent
+  when: mysql_root_password.changed
+
+- name: Create grafana database in mysql
+  mysql_db:
+    name: grafana
+    state: present
+  when: mysql_root_password.changed
+
+- name: Create graphite database in mysql
+  mysql_db:
+    name: graphite
+    state: present
+  when: mysql_root_password.changed
+
+- name: Update root mysql password
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_password.stdout }}"
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - "{{ ansible_fqdn }}"
+    - localhost
+  when: mysql_root_password.changed
+
+- name: Create /root/.my.cnf
+  template:
+    src: my.cnf.j2
+    dest: /root/.my.cnf
+  when: mysql_root_password.changed
+
+- name: Template out grafana.ini
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    mode: 0640
+  when: mysql_root_password.changed
+
+- name: Template out django local_settings.py
+  template:
+    src: local_settings.py.j2
+    dest: /etc/graphite-web/local_settings.py
+    mode: 0644
+  when: mysql_root_password.changed
+
+- name: Template out collectd.conf
+  template:
+    src: collectd.conf.j2
+    dest: /etc/collectd.conf
+    mode: 0644
+  when: mysql_root_password.changed
+
+- name: Template out graphite.conf
+  template:
+    src: graphite.conf.j2
+    dest: /etc/collectd.d/graphite.conf
+    mode: 0644
+  when: mysql_root_password.changed
+
+- name: Template out network.conf
+  template:
+    src: network.conf.j2
+    dest: /etc/collectd.d/network.conf
+    mode: 0644
+  when: mysql_root_password.changed
+
+- name: Template out graphite-web.conf
+  template:
+    src: graphite-web.conf.j2
+    dest: /etc/httpd/conf.d/graphite-web.conf
+    mode: 0644
+- name: Rename distribution ssl.conf
+  file:
+    path: /etc/httpd/conf.d/ssl.conf
+    state: absent
+
+- name: Remove welcome httpd stanza
+  file:
+    path: /etc/httpd/conf.d/welcome.conf
+    state: absent
+
+- name: Sync django database
+  django_manage:
+    command: syncdb
+    app_path: /usr/lib/python2.7/site-packages/graphite
+    settings: graphite.settings
+    pythonpath: /usr/share/graphite/webapp
+
+- block:
+  - name: Download root-chain certificate bundle
+    get_url:
+      url: "{{ root_certificate_url }}/{{ root_certificate_file }}"
+      dest: /etc/pki/ca-trust/source/anchors/root-ca-chain.pem
+      owner: root
+      group: root
+      mode: "0644"
+
+  - name: Update local certificate chain
+    command: update-ca-trust
+
+  - name: Copy certificate to /etc/pki/tls/certs
+    copy:
+      src: "{{ ansible_fqdn }}.crt"
+      dest: /etc/pki/tls/certs/{{ ansible_fqdn }}.crt
+      owner: root
+      group: root
+      mode: "0644"
+
+  - name: Copy certificate key to /etc/pki/tls/private
+    copy:
+      src: "{{ ansible_fqdn }}.key"
+      dest: /etc/pki/tls/private/{{ ansible_fqdn }}.key
+      owner: root
+      group: root
+      mode: "0400"
+  when: ansible_os_family == "RedHat"
+
+- name: Set read permission on certificate file for grafana user
+  acl:
+    path: /etc/pki/tls/certs/{{ ansible_fqdn }}.crt
+    entity: grafana
+    etype: user
+    permissions: r
+    state: present
+
+- name: Set read permission on certificate key file for grafana user
+  acl:
+    path: /etc/pki/tls/private/{{ ansible_fqdn }}.key
+    entity: grafana
+    etype: user
+    permissions: r
+    state: present
+ 
+- name: Open services in firewall
+  firewalld:
+    service: "{{ item  }}"
+    state: enabled
+    immediate: true
+    permanent: true
+  with_items:
+    - http
+    - https
+    - mysql
+
+- name: Open port 3000 in firewall
+  firewalld:
+    port: 3000/tcp
+    permanent: true
+    state: enabled
+
+- name: Open port 8080 in firewall
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    state: enabled
+
+- name: Open 2003 in firewall
+  firewalld:
+    port: 2003/tcp
+    permanent: true
+    state: enabled
+
+- name: Open 25826 in firewall
+  firewalld:
+    port: 25826/udp
+    permanent: true
+    state: enabled
+  notify: "restart firewall"
+
+- name: Enable seboolean collectd_can_network_connect
+  seboolean:
+    name: "{{ item }}"
+    state: yes
+    persistent: yes
+  with_items:
+    - collectd_tcp_network_connect
+    - httpd_can_network_connect
+
+- name: Start and enable services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - httpd
+    - collectd
+    - carbon-cache
+    - grafana-server

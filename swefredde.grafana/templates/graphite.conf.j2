@@ -1,0 +1,16 @@
+LoadPlugin write_graphite
+<Plugin write_graphite>
+  <Node "{{ ansible_fqdn }}">
+    Host "{{ inventory_hostname }}"
+    Port "2003"
+    Protocol "tcp"
+#    ReconnectInterval 0
+    LogSendErrors true
+#    Prefix "collectd"
+#    Postfix "collectd"
+    StoreRates true
+    AlwaysAppendDS false
+    EscapeCharacter "."
+#    DropDuplicateFields false
+  </Node>
+</Plugin>

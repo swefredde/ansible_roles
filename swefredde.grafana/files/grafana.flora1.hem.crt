@@ -1,0 +1,87 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 11 (0xb)
+    Signature Algorithm: sha1WithRSAEncryption
+        Issuer: DC=hem, DC=flora1, O=Automate, OU=Automate Signing CA, CN=Automate Signing CA
+        Validity
+            Not Before: Aug  6 14:10:18 2018 GMT
+            Not After : Aug  5 14:10:18 2020 GMT
+        Subject: DC=hem, DC=flora1, O=Automate, CN=grafana.flora1.hem
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d5:cd:97:9a:cd:38:95:72:f6:85:13:3a:8d:1b:
+                    bf:ba:ff:78:2c:ff:26:0d:84:61:07:03:64:f9:a5:
+                    ae:80:53:7a:21:91:b0:a2:6e:62:18:ea:3a:16:03:
+                    db:f1:ec:6f:15:18:84:69:02:f9:58:e4:b2:a3:5c:
+                    a8:87:41:fc:31:ee:a1:7b:cf:b1:5c:cf:95:04:5a:
+                    de:4d:4e:26:7f:ea:0f:e9:3d:3a:99:17:fa:bb:5a:
+                    5c:e1:d3:d3:42:86:e9:4f:ed:76:66:b2:d0:e7:af:
+                    b1:62:76:38:0c:9e:9e:41:ca:95:a5:67:85:d8:cb:
+                    b4:9c:34:6b:09:d8:cb:9a:a2:bf:de:d5:ea:ef:86:
+                    e2:5e:3e:11:bc:19:0c:20:bb:6e:95:82:63:4c:74:
+                    fe:2b:62:59:ed:16:40:d8:45:e9:fb:67:cf:71:fb:
+                    39:3a:68:4e:ed:85:2b:34:a3:32:83:f7:f3:f1:82:
+                    19:84:83:49:34:c2:35:9c:48:bb:3b:49:3a:a3:da:
+                    84:27:aa:af:b8:3e:99:a1:d5:7a:c2:56:05:9d:82:
+                    8e:f6:6f:3e:31:c1:02:99:81:20:72:a1:7d:7e:73:
+                    c8:3c:e3:3c:f4:ff:da:4b:a6:c5:18:a4:18:41:87:
+                    ec:dc:b9:29:6c:f4:b7:67:d8:5b:48:88:5a:2b:6e:
+                    87:cb
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Subject Key Identifier: 
+                AD:AC:B6:7C:8A:CB:FC:63:7A:04:65:CA:8A:E1:AE:A6:97:DA:4F:31
+            X509v3 Authority Key Identifier: 
+                keyid:19:44:E0:CB:9A:9D:3E:E3:18:80:7D:19:D2:BC:C5:CD:6D:DD:45:78
+
+            X509v3 Subject Alternative Name: 
+                DNS:grafana.flora1.hem
+    Signature Algorithm: sha1WithRSAEncryption
+         3b:a9:5b:45:0b:41:48:66:c7:91:78:76:20:1d:8f:a9:b7:cb:
+         08:8a:24:7b:2a:54:26:30:f5:b5:5b:7f:f7:91:8a:8c:b5:d7:
+         06:7b:11:8b:9d:a1:47:41:4e:2a:0f:14:48:7a:21:6d:d8:5f:
+         aa:0e:3e:54:cf:43:c5:fb:42:26:8f:cc:47:a2:21:72:3c:f5:
+         36:1b:c2:75:0f:f1:ae:b6:ac:aa:43:76:c4:1b:a5:00:d9:88:
+         6f:48:40:59:5a:ae:57:3d:f5:36:73:b1:55:d1:ed:05:09:61:
+         29:7f:72:53:51:2a:1f:03:cb:87:90:01:96:95:08:ba:cd:af:
+         35:df:c4:6b:5c:13:1b:cf:81:92:83:3b:6a:0a:8e:7b:a8:c7:
+         19:98:b2:ee:43:09:4f:ca:a6:d3:9b:77:2a:b1:4b:b1:ca:6e:
+         b8:0e:58:97:36:d8:25:ee:9c:8d:be:eb:43:ab:6f:9a:5e:77:
+         9d:b7:15:ac:76:5a:90:08:ff:4b:85:7d:e9:51:f5:02:41:47:
+         4b:16:88:5c:00:45:2f:3c:9a:08:bd:1b:95:8d:09:81:60:88:
+         a7:e6:8b:a1:5b:c2:4b:4e:c3:d2:df:aa:73:bf:21:cb:16:a8:
+         90:97:26:e3:0f:2b:c5:58:4f:f3:bc:4b:dc:1d:b5:d1:48:2b:
+         49:4f:5c:50
+-----BEGIN CERTIFICATE-----
+MIID8TCCAtmgAwIBAgIBCzANBgkqhkiG9w0BAQUFADB8MRMwEQYKCZImiZPyLGQB
+GRYDaGVtMRYwFAYKCZImiZPyLGQBGRYGZmxvcmExMREwDwYDVQQKDAhBdXRvbWF0
+ZTEcMBoGA1UECwwTQXV0b21hdGUgU2lnbmluZyBDQTEcMBoGA1UEAwwTQXV0b21h
+dGUgU2lnbmluZyBDQTAeFw0xODA4MDYxNDEwMThaFw0yMDA4MDUxNDEwMThaMF0x
+EzARBgoJkiaJk/IsZAEZFgNoZW0xFjAUBgoJkiaJk/IsZAEZFgZmbG9yYTExETAP
+BgNVBAoMCEF1dG9tYXRlMRswGQYDVQQDDBJncmFmYW5hLmZsb3JhMS5oZW0wggEi
+MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVzZeazTiVcvaFEzqNG7+6/3gs
+/yYNhGEHA2T5pa6AU3ohkbCibmIY6joWA9vx7G8VGIRpAvlY5LKjXKiHQfwx7qF7
+z7Fcz5UEWt5NTiZ/6g/pPTqZF/q7Wlzh09NChulP7XZmstDnr7FidjgMnp5BypWl
+Z4XYy7ScNGsJ2Muaor/e1ervhuJePhG8GQwgu26VgmNMdP4rYlntFkDYRen7Z89x
++zk6aE7thSs0ozKD9/PxghmEg0k0wjWcSLs7STqj2oQnqq+4Ppmh1XrCVgWdgo72
+bz4xwQKZgSByoX1+c8g84zz0/9pLpsUYpBhBh+zcuSls9Ldn2FtIiForbofLAgMB
+AAGjgZwwgZkwDgYDVR0PAQH/BAQDAgWgMAkGA1UdEwQCMAAwHQYDVR0lBBYwFAYI
+KwYBBQUHAwEGCCsGAQUFBwMCMB0GA1UdDgQWBBStrLZ8isv8Y3oEZcqK4a6ml9pP
+MTAfBgNVHSMEGDAWgBQZRODLmp0+4xiAfRnSvMXNbd1FeDAdBgNVHREEFjAUghJn
+cmFmYW5hLmZsb3JhMS5oZW0wDQYJKoZIhvcNAQEFBQADggEBADupW0ULQUhmx5F4
+diAdj6m3ywiKJHsqVCYw9bVbf/eRioy11wZ7EYudoUdBTioPFEh6IW3YX6oOPlTP
+Q8X7QiaPzEeiIXI89TYbwnUP8a62rKpDdsQbpQDZiG9IQFlarlc99TZzsVXR7QUJ
+YSl/clNRKh8Dy4eQAZaVCLrNrzXfxGtcExvPgZKDO2oKjnuoxxmYsu5DCU/KptOb
+dyqxS7HKbrgOWJc22CXunI2+60Orb5ped523Fax2WpAI/0uFfelR9QJBR0sWiFwA
+RS88mgi9G5WNCYFgiKfmi6FbwktOw9LfqnO/IcsWqJCXJuMPK8VYT/O8S9wdtdFI
+K0lPXFA=
+-----END CERTIFICATE-----
