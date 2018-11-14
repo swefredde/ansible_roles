@@ -2,6 +2,6 @@
 # defaults file for roles/swefredde.grafana
 grafana_rpm: grafana-5.1.2-1.x86_64.rpm
 grafana_url: https://s3-us-west-2.amazonaws.com/grafana-releases/release
-grafana_domain: flora1.hem
-root_certificate_url: http://mini.flora1.hem/pub
-root_certificate_file: automate-root-ca.pem
+grafana_domain: your.domain
+root_certificate_url: http://someserver.your.domain/certs
+root_certificate_file: name-of-your-root-ca.pem
